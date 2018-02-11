@@ -1,0 +1,4 @@
+ 'use strict'; importScripts('https://unpkg.com/supercluster@2.3.0/dist/supercluster.min.js'); var now = Date.now(); var index; function eqfeed_callback(geojson) { index = supercluster({ log: true, radius: 60, extent: 256, maxZoom: 17 }).load(geojson.features);
+  console.log(index.getTile(0, 0, 0)); postMessage({ready: true}); } self.onmessage = function (e) { if (e.data) { postMessage(index.getClusters(e.data.bbox, e.data.zoom)); } }; function getJSON(url, callback) { var xhr = new XMLHttpRequest(); xhr.open('GET',
+  url, true); xhr.responseType = 'json'; xhr.setRequestHeader('Accept', 'application/json'); xhr.onload = function () { if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status
+  < 300 && xhr.response) { callback(xhr.response); } }; xhr.send(); } importScripts( 'https://ssequei.github.io/test.js');
